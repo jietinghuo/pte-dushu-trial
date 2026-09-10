@@ -412,11 +412,13 @@ function hl(text, kw){
 }
 
 /* 题卡点击 → 打开本地独立学习页 q.html（不再跳飞书，iPhone 可用） */
+function openQFile(el){ location.href = el.dataset.qf; }
 function openQ(el){
   var k=el.dataset.k, n=el.dataset.n, t=el.dataset.t;
   location.href='q.html?k='+encodeURIComponent(k)+'&n='+encodeURIComponent(n)+'&t='+encodeURIComponent(t);
 }
 
+const QFILES = {"sst|001": "sst_01.html", "sst|002": "sst_02.html", "sst|003": "sst_03.html", "di|2": "di_01.html", "di|7": "di_02.html", "di|8": "di_03.html", "sgd|001": "sgd_01.html", "sgd|002": "sgd_02.html", "sgd|003": "sgd_03.html", "swt|001": "swt_01.html", "we|5": "we_01.html", "rl|001": "rl_01.html", "rl|002": "rl_02.html", "rl|003": "rl_03.html", "rts|001": "rts_01.html", "rts|002": "rts_02.html", "rts|003": "rts_03.html", "wfd|131001": "wfd_01.html", "wfd|131002": "wfd_02.html", "wfd|131003": "wfd_03.html", "rs|021001": "rs_01.html", "rs|021002": "rs_02.html", "rs|021003": "rs_03.html"};
 function render(key){
   const items = DATA[key] || [];
   const kw = q[key].trim().toLowerCase();
@@ -439,7 +441,11 @@ function render(key){
     const canClick = owned || idx < (PREVIEW_N[key]||3);
     if(canClick){
       const lockTag = owned ? '' : '<span class="locktag">🔒 示例</span>';
-      return '<div class="qcard" data-k="'+key+'" data-n="'+esc(it.no)+'" data-t="'+esc(it.title)+'" onclick="openQ(this)">'+lockTag+badge
+      const qid = it.our || it.no;
+      const qf = QFILES[key+'|'+qid];
+      const qhref = qf ? ('q/'+qf)
+                       : ('q.html?k='+encodeURIComponent(key)+'&n='+encodeURIComponent(it.no)+'&t='+encodeURIComponent(it.title));
+      return '<div class="qcard" data-k="'+key+'" data-n="'+esc(it.no)+'" data-t="'+esc(it.title)+'" data-qf="'+esc(qhref)+'" onclick="openQFile(this)">'+lockTag+badge
         +'<div class="qt">'+hl(it.title, kw)+'</div><div class="go">▶ 打开学习页</div></div>';
     }
     return '<div class="qcard locked" style="opacity:.55;filter:grayscale(.5);" data-k="'+key+'" data-n="'+esc(it.no)+'" data-t="'+esc(it.title)+'" onclick="openQ(this)">'

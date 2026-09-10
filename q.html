@@ -34,6 +34,15 @@
 </style>
 </head>
 <body>
+<script>
+(function(){
+  var NOFILE={"di|2":"di_01.html","di|7":"di_02.html","di|8":"di_03.html","we|5":"we_01.html","wfd|131001":"wfd_01.html","wfd|131002":"wfd_02.html","wfd|131003":"wfd_03.html","rs|021001":"rs_01.html","rs|021002":"rs_02.html","rs|021003":"rs_03.html","sst|33":"sst_01.html","sst|74":"sst_02.html","sst|108":"sst_03.html","sgd|117":"sgd_01.html","sgd|105":"sgd_02.html","sgd|95":"sgd_03.html","swt|1":"swt_01.html","rl|1":"rl_01.html","rl|2":"rl_02.html","rl|3":"rl_03.html","rts|1":"rts_01.html","rts|2":"rts_02.html","rts|3":"rts_03.html"};
+  try{
+    var p=new URLSearchParams(location.search), k=p.get('k'), n=p.get('n');
+    if(k&&n){ var f=NOFILE[k+'|'+n]; if(f){ location.replace('q/'+f); } }
+  }catch(e){}
+})();
+</script>
   <div class="top"><a class="back" href="lc.html">← 返回学习中心</a></div>
   <div class="hero">
     <div class="badge" id="badge">题型</div>
