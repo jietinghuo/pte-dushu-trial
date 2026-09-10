@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTE 学习页 · 试用</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+         background:linear-gradient(165deg,#eef2ff 0%,#faf5ff 50%,#fdf4ff 100%);
+         color:#333; min-height:100vh; padding:18px 12px 50px; }
+  .top { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+  .back { font-size:14px; font-weight:700; color:#7c3aed; background:rgba(255,255,255,.9);
+          border:2px solid #e4d9f7; border-radius:12px; padding:8px 14px; text-decoration:none;
+          box-shadow:0 2px 8px rgba(76,29,149,.08); }
+  .hero { background:linear-gradient(135deg,#7c3aed,#a855f7); color:#fff; border-radius:18px;
+          padding:18px 18px; margin-bottom:16px; box-shadow:0 8px 22px rgba(124,58,237,.3); }
+  .hero .badge { display:inline-block; font-size:13px; font-weight:700; background:rgba(255,255,255,.22);
+          border-radius:999px; padding:3px 12px; margin-bottom:8px; }
+  .hero h1 { font-size:21px; font-weight:800; line-height:1.35; }
+  .sec { background:#fff; border-radius:16px; padding:16px; margin-bottom:14px;
+         box-shadow:0 3px 12px rgba(76,29,149,.07); }
+  .sec .t { font-size:16px; font-weight:800; color:#4c1d95; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+  .pic { width:100%; border-radius:12px; border:1px solid #eee; display:block; margin-top:6px; }
+  .player { margin-top:10px; }
+  .player audio { width:100%; }
+  .note { background:#fff7ed; border:1.5px dashed #fdba74; color:#9a3412; border-radius:14px;
+          padding:14px 16px; font-size:14px; line-height:1.7; }
+  .note b { color:#c2410c; }
+  .unlock { background:linear-gradient(135deg,#ecfeff,#f0f9ff); border:1.5px solid #bae6fd;
+            border-radius:14px; padding:14px 16px; font-size:14px; line-height:1.7; color:#075985; }
+  .hidden { display:none; }
+  .mark { color:#7c3aed; font-weight:700; }
+</style>
+</head>
+<body>
+  <div class="top"><a class="back" href="lc.html">← 返回学习中心</a></div>
+  <div class="hero">
+    <div class="badge" id="badge">题型</div>
+    <h1 id="title">加载中…</h1>
+  </div>
+
+  <div id="assetBox"></div>
+
+  <div class="sec">
+    <div class="t">📌 试用说明</div>
+    <div class="note">
+      这是 <b>爱生活 · PTE AI 督学 试用版</b> 的单题学习页。<br>
+      当前展示该题型对应的<b>学习方法与示例素材</b>；完整的逐题精听音频、标准答案与逐题方法模板需在
+      <b>飞书正式版</b>中查看，或联系老师开通正式学员权限后解锁全部 728 题。
+    </div>
+  </div>
+
+  <div class="unlock">
+    🔓 <b>开通正式版后可解锁：</b>全部题型逐题音频精听、标准答案模板、智能跟读评分、以及督学系统的个性化训练计划。
+    试用仅展示方法与示例，足够你了解学习路径。
+  </div>
+
+<script>
+(function(){
+  function param(n){ var m=(location.search+'&').match(new RegExp(n+'=([^&]*)')); return m?decodeURIComponent(m[1].replace(/\+/g,' ')):''; }
+  var k = param('k') || 'sst';
+  var n = param('n') || '';
+  var t = param('t') || '';
+  var NAME = {sst:'SST 听力总结', di:'DI 描述图片', sgd:'SGD 小组讨论', swt:'SWT 书面总结', we:'WE 写作', rl:'RL 复述讲座', rts:'RTS 情境回应', wfd:'WFD 听写句子', rs:'RS 复述句子'};
+  var TYPE = k.toUpperCase();
+  document.getElementById('badge').textContent = (NAME[k]||TYPE) + (n?(' · #'+n):'');
+  document.getElementById('title').textContent = t || (NAME[k]||TYPE) + ' #' + n;
+  document.title = (NAME[k]||TYPE) + ' #' + n + ' · 学习页';
+
+  var box = document.getElementById('assetBox');
+
+  // DI 题：尝试加载本地图片与多版本音频（基础/完整）
+  if(k === 'di' && n){
+    var html = '';
+    html += '<div class="sec"><div class="t">🖼️ 题图</div>';
+    html += '<img class="pic" src="res/DI_'+n+'.png" alt="题图" onerror="this.parentNode.style.display=\'none\'"></div>';
+    html += '<div class="sec"><div class="t">🎧 跟读音频</div><div class="player" id="pl"></div></div>';
+    box.innerHTML = html;
+    var pl = document.getElementById('pl');
+    var files = ['res/DI_'+n+'.mp3','res/DI_'+n+'_basic.mp3','res/DI_'+n+'_full.mp3'];
+    var labels = ['原速','慢速(basic)','常速(full)'];
+    var any = false;
+    files.forEach(function(f,i){
+      // 探测是否存在
+      var probe = new XMLHttpRequest();
+      probe.open('HEAD', f, true);
+      probe.onload = function(){
+        if(probe.status >= 200 && probe.status < 400){
+          any = true;
+          var wrap = document.createElement('div');
+          wrap.style.marginTop = (i>0?'8px':'0');
+          wrap.innerHTML = '<div style="font-size:13px;color:#7c6ba6;margin-bottom:3px;">'+labels[i]+'</div><audio controls src="'+f+'"></audio>';
+          pl.appendChild(wrap);
+        }
+      };
+      probe.send();
+    });
+    // 若全部缺失，显示占位
+    setTimeout(function(){ if(!any){ pl.innerHTML = '<div style="font-size:13px;color:#a89ec8;">本题音频暂未包含在试用素材包中，开通正式版可获取全部音频。</div>'; } }, 1200);
+  }
+})();
+</script>
+</body>
+</html>
