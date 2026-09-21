@@ -110,6 +110,8 @@
                 color:#92400e; border-radius:12px; padding:12px 14px; font-size:13.5px; font-weight:600;
                 text-align:center; line-height:1.6; }
   .qcard.locked .go { color:#9ca3af; }
+  .romethods{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 4px}
+  .romethods .mcard{flex:1 1 220px;min-width:200px}
 
 </style>
 <style>
@@ -386,8 +388,15 @@
 
   <div class="panel" id="p-ro">
     <div class="sec-title">🔀 RO 题型说明</div>
-    <p class="info">Re-order Paragraphs（段落排序）—— 4 句话被打乱，靠<b>指代关系</b>（this / they / it）和<b>关联词</b>（But / So / However）锁定正确顺序，拖动重排后检查。试做开放 <b>2 道</b>。</p>
-    <div class="sec-title">📚 试做题目（开放 2 道）</div>
+    <p class="info">Re-order Paragraphs（段落排序）—— 电脑把一篇小短文拆成 4 段打乱顺序，你要靠逻辑把它们排回正确顺序。每题单独计分，是阅读里最考逻辑的题型。<b>试做开放 2 道，共 33 道</b>。</p>
+    <div class="sec-title">📋 做题方法（试用可见 · 正式版可练全 33 题）</div>
+    <div class="romethods">
+      <div class="mcard"><div class="mh">① 先找「首句」</div><div class="mb">首句通常引入话题，<b>不含指代词</b>（this / they / it / these）和<b>转折词</b>（But / However）。谁在回指别人，谁就不能排第一。</div></div>
+      <div class="mcard"><div class="mh">② 锁「指代关系」</div><div class="mb">this / these / such 指代前文刚出现的事物；they / them 指代复数名词。试做页上箭头 a→b 表示 b 必须紧跟 a，这是排序的<b>硬证据</b>。</div></div>
+      <div class="mcard"><div class="mh">③ 用「关联词」定先后</div><div class="mb">But / However / Yet 表转折（后句接在让步之后）；So / Therefore / Thus 表因果（结果在后）；Also / Moreover / Besides 表并列递进。</div></div>
+      <div class="mcard"><div class="mh">④ 读一遍验证</div><div class="mb">排完把 4 句连起来念一遍，时间线、因果、指代都对得上就对了。拿不准先排首尾，中间用排除法。</div></div>
+    </div>
+    <div class="sec-title">📚 试做题目（开放 2 道 · 共 33 题）</div>
     <div class="info" id="i-ro"></div>
     <div class="grid" id="g-ro"></div>
   </div>
@@ -412,7 +421,7 @@ const OWNED = [];  // 试用版：全部题型未开通，仅前 N 题可免费�
 const PREVIEW_N = {we:1, swt:1, sst:3, di:3, sgd:3, rl:3, rts:3, wfd:3, rs:3, ro:2};
 function isOwned(k){ return OWNED.indexOf(k) >= 0; }
 
-let q = {sst:"", di:"", sgd:"", swt:"", we:"", rl:"", rts:"", wfd:"", rs:""};
+let q = {sst:"", di:"", sgd:"", swt:"", we:"", rl:"", rts:"", wfd:"", rs:"", ro:""};
 function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 function hl(text, kw){
   if(!kw) return esc(text);
