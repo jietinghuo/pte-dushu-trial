@@ -209,7 +209,7 @@ function renderExplain(){
   h+=`<div class="legend"><b>🎨 指代 / 衔接关系（同色 = 相连）：</b></div>`;
   d.links.forEach(l=>{
     const src=(l.anteIdx>=0)?(l.anteIdx+1):(l.from);
-    const anteTxt=l.ante?`『${esc(l.ante)}』`:"（见前文）";
+    const anteTxt=l.ante?`『${esc(l.ante)}』`:`句${l.from}整体`;
     h+=`<div class="rel" style="border-left-color:${l.color}">`+
        `<span style="color:${l.color};font-weight:800">●</span> `+
        `句${l.to}『${esc(l.ref)}』 <b>←</b> 句${src}${anteTxt}`+
